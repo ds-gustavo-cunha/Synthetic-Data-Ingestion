@@ -28,7 +28,7 @@ class RdsIngestor:
 
         # define logging configuration
         logging.basicConfig(
-            filename=f"../logs/rds_ingestion-{datetime.utcnow().date()}.log",
+            filename=f"../logs/data_ingestion-{datetime.utcnow().date()}.log",
             level=logging.INFO,
             format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
             datefmt="%Y:%m:%d %H:%M:%S",
@@ -140,35 +140,19 @@ class RdsIngestor:
     def _create_ingestion_schema(self) -> None:
         """Define the schema that data must follow in order to be input on AWS RDS"""
 
-        # try to create shema for data ingestion
-        try:
+        # define schema for data ingestion
+        self.dtype_schema = {
+            "total_purchase_price": Float(precision=2),
+            "num_diff_items": SmallInteger,
+            "purchase_date": String(length=10),
+            "region": String(length=3),
+            "gender": String(length=6),
+            "group": String(length=9),
+            "device": String(length=8),
+        }
 
-            # define schema for data ingestion
-            self.dtype_schema = {
-                "total_purchase_price": Float(precision=2),
-                "num_diff_items": SmallInteger,
-                "purchase_date": String(length=10),
-                "region": String(length=3),
-                "gender": String(length=6),
-                "group": String(length=9),
-                "device": String(length=8),
-            }
-
-        # input not valid
-        except Exception as e:
-            # log a warning
-            self.logger.warning(
-                f"_create_ingestion_schema method NOT successful: raised error ---> {e}"
-            )
-
-            # raise the exception
-            raise e
-
-        # input validated
-        else:
-
-            # log an information
-            self.logger.info(f"_create_ingestion_schema method successfully called")
+        # log an information
+        self.logger.info(f"_create_ingestion_schema method successfully called")
 
     def ingest_samples(self) -> str:
         """Send the generated samples to AWS RDS"""
@@ -191,7 +175,7 @@ class RdsIngestor:
                 # insert data from df_insertion into database
                 self.df_ingestion.to_sql(
                     name="SyntheticCustomers",  # Name of SQL table
-                    con=connection,  # sqlalchemy.engine.(Engine or Connection)
+                    con=connection,  # sqlalchemy.engine (Engine or Connection)
                     schema="public",  # specify the schema
                     if_exists="append",  # if the table already exists.
                     index=False,  # don't write df index as a column

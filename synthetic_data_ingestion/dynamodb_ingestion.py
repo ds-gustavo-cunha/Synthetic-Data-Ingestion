@@ -25,7 +25,7 @@ class DynamodbIngestor:
 
         # define logging configuration
         logging.basicConfig(
-            filename=f"../logs/dynamodb_ingestion-{datetime.utcnow().date()}.log",
+            filename=f"../logs/data_ingestion-{datetime.utcnow().date()}.log",
             level=logging.INFO,
             format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
             datefmt="%Y:%m:%d %H:%M:%S",
