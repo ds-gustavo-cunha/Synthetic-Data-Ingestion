@@ -90,6 +90,7 @@ def save_report(data: ReportValues):
 
         # get S3 input request status
         r_status = s3_put["ResponseMetadata"]["HTTPStatusCode"]
+
         # prepare reponse message
         response_msg = f"HTTP status of report input to S3 bucket --> {r_status}"
 
