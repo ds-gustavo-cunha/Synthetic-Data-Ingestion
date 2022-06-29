@@ -4,6 +4,7 @@ import json
 import boto3
 import pytest
 from moto import mock_s3
+from dotenv import load_dotenv
 from unittest.mock import patch
 from fastapi.testclient import TestClient
 from api.lambda_function import app
@@ -21,6 +22,7 @@ def aws_credentials():
     os.environ["AWS_SECURITY_TOKEN"] = "testing"
     os.environ["AWS_SESSION_TOKEN"] = "testing"
     os.environ["AWS_DEFAULT_REGION"] = "us-east-1"
+
 
 
 @pytest.fixture(scope="function")

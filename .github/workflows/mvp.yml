@@ -8,6 +8,11 @@ on: # job start
 jobs: # job definition
   mvp_test: # job name
     runs-on: ubuntu-latest # image to run tests
+    
+    env: # environmental variables
+      AWS_S3_BUCKET: "testing_bucket"
+      AWS_LAMBDA_API: "testing_lambda_api"
+      AWS_RDB_ENDPOINT: "testing_rds"
 
     steps: # define os steps
       - uses: actions/checkout@v2 # github step
