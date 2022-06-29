@@ -288,7 +288,7 @@ class DynamodbIngestor:
         and delete them"""
 
         # check if logs were succesfully sent
-        if self.send_logs:
+        if self._logs_sent:
 
             # try to find the given folder
             try:

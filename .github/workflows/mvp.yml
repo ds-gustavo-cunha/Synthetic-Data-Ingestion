@@ -16,6 +16,7 @@ jobs: # job definition
       AWS_RDB_PORT: 5432
       AWS_RDB_USER: "testing_rds_user"
       AWS_RDB_PASSWORD: "testing_rds_pswd"
+      AWS_DYNAMODB_TABLE: "testing_dynamo_table"
 
 
     steps: # define os steps
