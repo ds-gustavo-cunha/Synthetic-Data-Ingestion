@@ -22,5 +22,4 @@ clean:
 install_project_lib:
 	pip install -e .
 
-venv_setup:
-	install_requirements install_project_lib
+venv_setup:	install_requirements install_project_lib
