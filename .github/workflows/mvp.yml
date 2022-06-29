@@ -1,0 +1,24 @@
+name: MVP
+
+on: # job start
+  push: # when pushing
+    branches-ignore: # ignore branches
+      - master
+
+jobs: # job definition
+  mvp_test: # job name
+    runs-on: ubuntu-latest # image to run tests
+
+    steps: # define os steps
+      - uses: actions/checkout@v2 # github step
+
+      - name: Python Setup # step name
+        uses: actions/setup-python@v2 # github "internal" step
+        with:
+          python-version: '3.8' # python version to use for tests
+          
+      - name: Venv Setup
+        run: make venv_setup # run Makefile command
+
+      - name: Run Tests # step name
+        run: make test # run Makefile command
