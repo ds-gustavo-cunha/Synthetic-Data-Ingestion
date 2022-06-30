@@ -9,7 +9,7 @@ from synthetic_data_ingestion.rds_ingestion import RdsIngestor
 from synthetic_data_ingestion.sample_creator import SynthCustomers
 
 
-# define samples to parameterize TestSynthCustomers class
+# define samples to parameterize SynthCustomers class
 samples = [(10, "CONTROL"), (100, "TREATMENT"), (1000, "CONTROL")]
 
 # parameterize class
@@ -41,7 +41,7 @@ class TestRdsIngestor:
         synth_customers = SynthCustomers(num_samples=num_samples, group=group)
         synth_customers.generate_samples()
 
-        # make sure _create_conn_engine will raise and error
+        # make sure it will raise an error
         with pytest.raises(Exception):
             # instanciate RdsIngestor
             rds_ingestor = RdsIngestor(synth_customers)
@@ -50,7 +50,7 @@ class TestRdsIngestor:
         """test if constructor raises an error in case of
         incorrect input object type"""
 
-        # make sure _create_conn_engine will raise and error
+        # make sure it will raise an error
         with pytest.raises(Exception):
             # instanciate RdsIngestor
             rds_ingestor = RdsIngestor("INVALID_INPUT")
@@ -68,7 +68,7 @@ class TestRdsIngestor:
         # instanciate RdsIngestor object
         rds_ingestor = RdsIngestor(synth_customers)
 
-        # make sure _create_conn_engine will raise and error
+        # make sure it will raise and error
         with pytest.raises(Exception):
             # remove required one environmental variable
             with monkeypatch.delenv("AWS_RDB_ENDPOINT"):
@@ -92,7 +92,7 @@ class TestRdsIngestor:
         # it raises an exception
         monkeypatch.setattr("boto3.Session", lambda: Exception)
 
-        # make sure _create_conn_engine will raise and error
+        # make sure it will raise an error
         with pytest.raises(Exception):
             # call _create_conn_engine method
             rds_ingestor._create_conn_engine()
@@ -165,12 +165,12 @@ class TestRdsIngestor:
         # it raises an exception
         monkeypatch.setattr("sqlalchemy.engine.base.Engine", lambda: Exception)
 
-        # make sure _create_conn_engine will raise and error
+        # make sure it will raise an error
         with pytest.raises(Exception):
             # call _create_conn_engine method
             rds_ingestor._create_conn_engine()
 
-    # decorator to mock sql engine connect method
+    # decorator to mock sql engine connect method -> raise exception
     @patch("sqlalchemy.engine.base.Engine.connect", side_effect=Exception)
     def test_ingest_samples_conn_error(self, mock_sqlalchemy, num_samples, group):
         """Check if ingest_samples method raises an error in case
@@ -190,7 +190,7 @@ class TestRdsIngestor:
             # call ingest_samples method
             assert rds_ingestor.ingest_samples()
 
-    # decorator to raise error when calling dataframe.to_sql
+    # decorator to raise error when calling dataframe.to_sql -> raise exception
     @patch("pandas.core.frame.DataFrame.to_sql", side_effect=Exception)
     def test_ingest_samples_pandas_error(self, mock_pd_sql, num_samples, group):
         """Check if ingest_samples method raises an error in case

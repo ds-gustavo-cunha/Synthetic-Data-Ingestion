@@ -35,7 +35,7 @@ class TestLambdaIngestor:
 
         # make sure it will raise an error
         with pytest.raises(Exception):
-            # instanciate RdsIngestor
+            # instanciate LambdaIngestor
             LambdaIngestor("INVALID_INPUT")
 
     def test_constructor_invalid_no_report(self, num_samples, group):
@@ -49,7 +49,7 @@ class TestLambdaIngestor:
 
         # make sure it raises and error
         with pytest.raises(Exception):
-            # instanciate RdsIngestor
+            # instanciate LambdaIngestor
             LambdaIngestor(synth_customers)
 
     def test__jsonify_report_okay(self, num_samples, group):
@@ -102,6 +102,7 @@ class TestLambdaIngestor:
 
         assert lambda_ingestor.send_report_to_lambda() == "Okay"
 
+    # patch requests.post() so as to raise an Exception
     @patch(target="requests.post", side_effect=Exception("post error"))
     def test_send_report_to_lambda_request_raise_error(
         self, mock_post_error, num_samples, group
@@ -126,13 +127,13 @@ class TestLambdaIngestor:
 
 class TestNpEncoder:
     def test_default_int(self):
-        """test default encoder"""
+        """test default json encoder for np integers"""
         assert NpEncoder().default(np.array([1])[0]) == 1
 
     def test_default_float(self):
-        """test default jsonifiing"""
+        """test default json encoder for np floats"""
         assert NpEncoder().default(np.array([1.5])[0]) == 1.5
 
     def test_default_array(self):
-        """test default jsonifiing"""
+        """test default json encoder for np arrays"""
         assert NpEncoder().default(np.array([1, 1.5])) == [1, 1.5]

@@ -24,7 +24,6 @@ def aws_credentials():
     os.environ["AWS_DEFAULT_REGION"] = "us-east-1"
 
 
-
 @pytest.fixture(scope="function")
 def fake_s3_bucket(aws_credentials, *args, **kwargs):
     """Pytest fixture that creates an fake s3 bucket on a
@@ -75,6 +74,7 @@ class TestFastAPI:
 
         assert response.status_code == 422  # Unprocessable Entity
 
+    # patch os.environ so as to raise exception
     @patch(target="os.environ", side_effect=Exception)
     def test_save_report_wrong_venv(self, monkeypatch):
         """Check if api gives expected response in case
