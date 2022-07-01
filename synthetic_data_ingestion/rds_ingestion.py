@@ -130,8 +130,8 @@ class RdsIngestor:
                 f"ingest_samples method NOT successfully called: raised error ---> {e}"
             )
 
-            # raise the exception
-            raise e
+            return f"ingest_samples method NOT successfully called: raised error ---> {e}"
+
 
         # input validated
         else:
@@ -173,8 +173,7 @@ class RdsIngestor:
                 f"_create_conn_engine method NOT successful: raised error ---> {e}"
             )
 
-            # raise the exception
-            raise e
+            return f"_create_conn_engine method NOT successful: raised error ---> {e}"
 
         # input validated
         else:

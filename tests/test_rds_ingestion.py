@@ -92,10 +92,8 @@ class TestRdsIngestor:
         # it raises an exception
         monkeypatch.setattr("boto3.Session", lambda: Exception)
 
-        # make sure it will raise an error
-        with pytest.raises(Exception):
-            # call _create_conn_engine method
-            rds_ingestor._create_conn_engine()
+        # call _create_conn_engine method
+        assert rds_ingestor._create_conn_engine().startswith("_create_conn_engine method NOT successful: raised error ---> ")
 
     def test__create_conn_success(self, monkeypatch, num_samples, group):
         """Check if _create_conn_engine method successfully create
@@ -165,10 +163,8 @@ class TestRdsIngestor:
         # it raises an exception
         monkeypatch.setattr("sqlalchemy.engine.base.Engine", lambda: Exception)
 
-        # make sure it will raise an error
-        with pytest.raises(Exception):
-            # call _create_conn_engine method
-            rds_ingestor._create_conn_engine()
+        # call _create_conn_engine method
+        assert rds_ingestor._create_conn_engine().startswith("_create_conn_engine method NOT successful: raised error ---> ")
 
     # decorator to mock sql engine connect method -> raise exception
     @patch("sqlalchemy.engine.base.Engine.connect", side_effect=Exception)
@@ -185,10 +181,8 @@ class TestRdsIngestor:
         # instanciate RdsIngestor object
         rds_ingestor = RdsIngestor(synth_customers)
 
-        # make sure ingest_samples will raise and error
-        with pytest.raises(Exception):
-            # call ingest_samples method
-            assert rds_ingestor.ingest_samples()
+        # call ingest_samples method
+        assert rds_ingestor.ingest_samples().startswith("ingest_samples method NOT successfully called: raised error --->")
 
     # decorator to raise error when calling dataframe.to_sql -> raise exception
     @patch("pandas.core.frame.DataFrame.to_sql", side_effect=Exception)
@@ -205,12 +199,10 @@ class TestRdsIngestor:
         # instanciate RdsIngestor object
         rds_ingestor = RdsIngestor(synth_customers)
 
-        # make sure ingest_samples will raise and error
-        with pytest.raises(Exception):
-            # mock sql engine connect method
-            with patch("sqlalchemy.engine.base.Engine.connect") as mock_sql:
-                # call ingest_samples method
-                rds_ingestor.ingest_samples()
+        # mock sql engine connect method
+        with patch("sqlalchemy.engine.base.Engine.connect") as mock_sql:
+            # call ingest_samples method
+            assert rds_ingestor.ingest_samples().startswith("ingest_samples method NOT successfully called: raised error --->")
 
     # mock callable for dataframe.to_sql
     def mock_pd_to_sql(*args, **kwargs):

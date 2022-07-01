@@ -73,10 +73,8 @@ class TestDynamodbIngestor:
         # instanciate dynamodb ingestor
         dynamodb_ingestor = DynamodbIngestor("mocking")
 
-        # make sure _create_client will raise and error
-        with pytest.raises(Exception):
-            # call _create_client method
-            dynamodb_ingestor._create_client()
+        # call _create_client method
+        assert dynamodb_ingestor._create_client().startswith("_create_client method NOT successful: raised error ---> ")
 
     # mock "with open" clause, "os.listdir"
     # and use "fake_dynamo_table" fixture
@@ -133,10 +131,8 @@ class TestDynamodbIngestor:
         # set created flag to false so as to check create_table method
         dynamodb_ingestor._table_created_flag = False
 
-        # make sure it will raise and error
-        with pytest.raises(Exception):
-            # call _create_table method
-            dynamodb_ingestor._create_table()
+        # call _create_table method
+        assert dynamodb_ingestor._create_table().startswith("_create_table method NOT successful: raised error ---> ")
 
     # mock "with open" clause, "os.listdir"
     # and use "fake_dynamo_table" fixture
@@ -206,10 +202,8 @@ class TestDynamodbIngestor:
 
             # patch os.listdir method so as to raise error and test _parse_logs exception
             with patch(target="os.listdir", side_effect=Exception):
-                # make sure _parse_logs will raise and error
-                with pytest.raises(Exception):
-                    # call _parse_logs method
-                    dynamodb_ingestor._parse_logs()
+                # call _parse_logs method
+                assert dynamodb_ingestor._parse_logs().startswith("parse_logs method NOT successful: raised error ---> ")
 
     # mock "with open" clause, "os.listdir"
     # and use "fake_dynamo_table" fixture
@@ -326,7 +320,5 @@ class TestDynamodbIngestor:
             with patch(
                 target="os.listdir", side_effect=Exception("list.dir exception")
             ):
-                # make sure _delete_logs will raise and error
-                with pytest.raises(Exception):
-                    # call _delete_logs method
-                    dynamodb_ingestor._delete_logs()
+                # call _delete_logs method
+                assert dynamodb_ingestor._delete_logs().startswith("_delete_logs method NOT successful: raised error ---> ")

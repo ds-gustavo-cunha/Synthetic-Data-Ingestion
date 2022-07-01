@@ -83,8 +83,7 @@ class DynamodbIngestor:
                     f"send_logs method NOT successful: raised error ---> {e}"
                 )
 
-                # raise the exception
-                raise e
+                return f"send_logs method NOT successful: raised error ---> {e}"
 
             # log sent
             else:
@@ -136,8 +135,7 @@ class DynamodbIngestor:
                 f"_create_client method NOT successful: raised error ---> {e}"
             )
 
-            # raise the exception
-            raise e
+            return f"_create_client method NOT successful: raised error ---> {e}"
 
         # input validated
         else:
@@ -192,8 +190,7 @@ class DynamodbIngestor:
                     f"_create_table method NOT successful: raised error ---> {e}"
                 )
 
-                # raise the exception
-                raise e
+                return f"_create_table method NOT successful: raised error ---> {e}"
 
             # table created
             else:
@@ -234,8 +231,7 @@ class DynamodbIngestor:
                 f"parse_logs method NOT successful: raised error ---> {e}"
             )
 
-            # raise the exception
-            raise e
+            return f"parse_logs method NOT successful: raised error ---> {e}"
 
         # folder was found
         else:
@@ -306,8 +302,7 @@ class DynamodbIngestor:
                     f"_delete_logs method NOT successful: raised error ---> {e}"
                 )
 
-                # raise the exception
-                raise e
+                return f"_delete_logs method NOT successful: raised error ---> {e}"
 
             # folder was found
             else:
