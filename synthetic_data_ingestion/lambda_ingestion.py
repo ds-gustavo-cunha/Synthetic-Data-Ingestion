@@ -108,15 +108,6 @@ class LambdaIngestor:
         # log an information
         self.logger.info(f"LambdaIngestor object successfully instanciated")
 
-    def _jsonify_report(self) -> None:
-        """Get the raw report and convert it to a json"""
-
-        # use NpEncoder to convert raw_report to a json report
-        self.json_report = json.dumps(self.raw_report, cls=NpEncoder)
-
-        # log an information
-        self.logger.info(f"jsonify_report method successfully called")
-
     def send_report_to_lambda(self) -> str:
         """Get the raw report, convert to json and send to AWS Lambda API"""
 
@@ -162,3 +153,12 @@ class LambdaIngestor:
 
             # response from lambda api
             return r.json()
+
+    def _jsonify_report(self) -> None:
+        """Get the raw report and convert it to a json"""
+
+        # use NpEncoder to convert raw_report to a json report
+        self.json_report = json.dumps(self.raw_report, cls=NpEncoder)
+
+        # log an information
+        self.logger.info(f"jsonify_report method successfully called")

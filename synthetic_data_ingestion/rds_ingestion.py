@@ -95,6 +95,51 @@ class RdsIngestor:
             f"RdsIngestor object successfully instanciated: group = {synth_customer_object.group}, num_samples = {synth_customer_object.num_samples}"
         )
 
+    def ingest_samples(self) -> str:
+        """Send the generated samples to AWS RDS"""
+
+        # create a dataframe based on
+        # sampling information (on sampling_dict)
+        # from SynthCustomers object
+        self.df_ingestion = pd.DataFrame(data=self.synth_customers.sampling_dict)
+
+        # create engine to connect with AWS RDS
+        self._create_conn_engine()
+
+        # define schema to input data on table
+        self._create_ingestion_schema()
+
+        # try to input data on AWS RDS
+        try:
+            # open connection with context manager
+            with self.engine.connect() as connection:
+                # insert data from df_insertion into database
+                self.df_ingestion.to_sql(
+                    name="SyntheticCustomers",  # Name of SQL table
+                    con=connection,  # sqlalchemy.engine (Engine or Connection)
+                    schema="public",  # specify the schema
+                    if_exists="append",  # if the table already exists.
+                    index=False,  # don't write df index as a column
+                    dtype=self.dtype_schema,  # schame to input data on table
+                )
+
+        # input not valid
+        except Exception as e:
+            # log a warning
+            self.logger.critical(
+                f"ingest_samples method NOT successfully called: raised error ---> {e}"
+            )
+
+            # raise the exception
+            raise e
+
+        # input validated
+        else:
+            # log an information
+            self.logger.info(f"ingest_samples method successfully called")
+
+            return "ingest_samples method successfully called"
+
     def _create_conn_engine(self) -> None:
         """Create a engine to connect with AWS RDS database"""
 
@@ -154,47 +199,3 @@ class RdsIngestor:
         # log an information
         self.logger.info(f"_create_ingestion_schema method successfully called")
 
-    def ingest_samples(self) -> str:
-        """Send the generated samples to AWS RDS"""
-
-        # create a dataframe based on
-        # sampling information (on sampling_dict)
-        # from SynthCustomers object
-        self.df_ingestion = pd.DataFrame(data=self.synth_customers.sampling_dict)
-
-        # create engine to connect with AWS RDS
-        self._create_conn_engine()
-
-        # define schema to input data on table
-        self._create_ingestion_schema()
-
-        # try to input data on AWS RDS
-        try:
-            # open connection with context manager
-            with self.engine.connect() as connection:
-                # insert data from df_insertion into database
-                self.df_ingestion.to_sql(
-                    name="SyntheticCustomers",  # Name of SQL table
-                    con=connection,  # sqlalchemy.engine (Engine or Connection)
-                    schema="public",  # specify the schema
-                    if_exists="append",  # if the table already exists.
-                    index=False,  # don't write df index as a column
-                    dtype=self.dtype_schema,  # schame to input data on table
-                )
-
-        # input not valid
-        except Exception as e:
-            # log a warning
-            self.logger.critical(
-                f"ingest_samples method NOT successfully called: raised error ---> {e}"
-            )
-
-            # raise the exception
-            raise e
-
-        # input validated
-        else:
-            # log an information
-            self.logger.info(f"ingest_samples method successfully called")
-
-            return "ingest_samples method successfully called"

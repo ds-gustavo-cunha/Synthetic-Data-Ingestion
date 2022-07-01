@@ -7,7 +7,7 @@ from moto import mock_s3
 from dotenv import load_dotenv
 from unittest.mock import patch
 from fastapi.testclient import TestClient
-from api.lambda_function import app
+from lambda_api.lambda_function import app
 
 
 # instanciate TestClient to test FastAPI

@@ -48,6 +48,69 @@ class DynamodbIngestor:
             f"DynamodbIngestor object successfully instanciated: logs_folder = {logs_folder}"
         )
 
+
+    def send_logs(self) -> str:
+        """Send logs (in batch) to AWS DynamoDB"""
+
+        # check if logs were not sent yet
+        if not self._logs_sent:
+
+            # try to send logs in batch
+            try:
+
+                # create a DynamoDB client
+                self._create_client()
+
+                # open dynamodb client with context manaer
+                with self.table.batch_writer() as writer:
+                    # iterate over all logs
+                    for log in self.all_logs:
+                        # send log
+                        writer.put_item(
+                            Item={
+                                "timestamp": log[0],  # log level
+                                "log_file_sequence": log[1],  # timestamp (in UTC)
+                                "level": log[2],  # log level
+                                "name": log[3],  # log name
+                                "msg": log[4],  # log message
+                            }
+                        )
+
+            # exception on batch sending
+            except Exception as e:
+                # log a warning
+                self.logger.critical(
+                    f"send_logs method NOT successful: raised error ---> {e}"
+                )
+
+                # raise the exception
+                raise e
+
+            # log sent
+            else:
+
+                # log an information
+                self.logger.info(f"send_logs method successfully called")
+
+                # set a flag to indicate that if logs were successfully sent to DynamoDB
+                self._logs_sent = True
+
+                # delete logs to save space
+                # self._delete_logs()
+
+                return "send_logs method successfully called"
+
+        # logs were already sent
+        else:
+            # log an information
+            self.logger.info(
+                f"send_logs method successfully called: nothing was done once log were already sent"
+            )
+
+            # message to user
+            return "Nothing was done once log were already sent"
+
+
     def _create_client(self) -> None:
         """Create a client to connect with AWS DynamoDB"""
 
@@ -222,66 +285,6 @@ class DynamodbIngestor:
 
             return "parse_logs method successfully called"
 
-    def send_logs(self) -> str:
-        """Send logs (in batch) to AWS DynamoDB"""
-
-        # check if logs were not sent yet
-        if not self._logs_sent:
-
-            # try to send logs in batch
-            try:
-
-                # create a DynamoDB client
-                self._create_client()
-
-                # open dynamodb client with context manaer
-                with self.table.batch_writer() as writer:
-                    # iterate over all logs
-                    for log in self.all_logs:
-                        # send log
-                        writer.put_item(
-                            Item={
-                                "timestamp": log[0],  # log level
-                                "log_file_sequence": log[1],  # timestamp (in UTC)
-                                "level": log[2],  # log level
-                                "name": log[3],  # log name
-                                "msg": log[4],  # log message
-                            }
-                        )
-
-            # exception on batch sending
-            except Exception as e:
-                # log a warning
-                self.logger.critical(
-                    f"send_logs method NOT successful: raised error ---> {e}"
-                )
-
-                # raise the exception
-                raise e
-
-            # log sent
-            else:
-
-                # log an information
-                self.logger.info(f"send_logs method successfully called")
-
-                # set a flag to indicate that if logs were successfully sent to DynamoDB
-                self._logs_sent = True
-
-                # delete logs to save space
-                # self._delete_logs()
-
-                return "send_logs method successfully called"
-
-        # logs were already sent
-        else:
-            # log an information
-            self.logger.info(
-                f"send_logs method successfully called: nothing was done once log were already sent"
-            )
-
-            # message to user
-            return "Nothing was done once log were already sent"
 
     def _delete_logs(self) -> str:
         """Given the logs_folder param, parse all files inside this folder
