@@ -52,7 +52,7 @@ def data_ingestion(num_samples, group):
 ############## AIRFLOW DAG ##############
 
 # create a dag with context manager
-with DAG(dag_id = "insiders_pipeline", 
+with DAG(dag_id = "synthetic_data_ingestion", 
         start_date = datetime(2022,7, 2),
         schedule_interval = "* * * * *", # At 09:00 on Monday.
         catchup = False # don't wait schedule_interval after start date
