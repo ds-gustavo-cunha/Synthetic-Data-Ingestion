@@ -1,0 +1,34 @@
+name: MVP
+
+on: # job start
+  push: # when pushing
+    branches-ignore: # ignore branches
+      - master
+
+jobs: # job definition
+  mvp_test: # job name
+    runs-on: ubuntu-latest # image to run tests
+    
+    env: # environmental variables
+      AWS_S3_BUCKET: "testing_bucket"
+      AWS_LAMBDA_API: "testing_lambda_api"
+      AWS_RDB_ENDPOINT: "testing_rds_endpoint.com"
+      AWS_RDB_PORT: 5432
+      AWS_RDB_USER: "testing_rds_user"
+      AWS_RDB_PASSWORD: "testing_rds_pswd"
+      AWS_DYNAMODB_TABLE: "testing_dynamo_table"
+
+
+    steps: # define os steps
+      - uses: actions/checkout@v2 # github step
+
+      - name: Python Setup # step name
+        uses: actions/setup-python@v2 # github "internal" step
+        with:
+          python-version: '3.8' # python version to use for tests
+          
+      - name: Venv Setup
+        run: make venv_setup # run Makefile command
+
+      - name: Run Tests # step name
+        run: make test # run Makefile command

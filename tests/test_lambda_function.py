@@ -4,9 +4,10 @@ import json
 import boto3
 import pytest
 from moto import mock_s3
+from dotenv import load_dotenv
 from unittest.mock import patch
 from fastapi.testclient import TestClient
-from api.lambda_function import app
+from lambda_api.lambda_function import app
 
 
 # instanciate TestClient to test FastAPI
@@ -73,6 +74,7 @@ class TestFastAPI:
 
         assert response.status_code == 422  # Unprocessable Entity
 
+    # patch os.environ so as to raise exception
     @patch(target="os.environ", side_effect=Exception)
     def test_save_report_wrong_venv(self, monkeypatch):
         """Check if api gives expected response in case
