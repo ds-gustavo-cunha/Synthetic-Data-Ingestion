@@ -93,7 +93,9 @@ class TestRdsIngestor:
         monkeypatch.setattr("boto3.Session", lambda: Exception)
 
         # call _create_conn_engine method
-        assert rds_ingestor._create_conn_engine().startswith("_create_conn_engine method NOT successful: raised error ---> ")
+        assert rds_ingestor._create_conn_engine().startswith(
+            "_create_conn_engine method NOT successful: raised error ---> "
+        )
 
     def test__create_conn_success(self, monkeypatch, num_samples, group):
         """Check if _create_conn_engine method successfully create
@@ -164,7 +166,9 @@ class TestRdsIngestor:
         monkeypatch.setattr("sqlalchemy.engine.base.Engine", lambda: Exception)
 
         # call _create_conn_engine method
-        assert rds_ingestor._create_conn_engine().startswith("_create_conn_engine method NOT successful: raised error ---> ")
+        assert rds_ingestor._create_conn_engine().startswith(
+            "_create_conn_engine method NOT successful: raised error ---> "
+        )
 
     # decorator to mock sql engine connect method -> raise exception
     @patch("sqlalchemy.engine.base.Engine.connect", side_effect=Exception)
@@ -182,7 +186,9 @@ class TestRdsIngestor:
         rds_ingestor = RdsIngestor(synth_customers)
 
         # call ingest_samples method
-        assert rds_ingestor.ingest_samples().startswith("ingest_samples method NOT successfully called: raised error --->")
+        assert rds_ingestor.ingest_samples().startswith(
+            "ingest_samples method NOT successfully called: raised error --->"
+        )
 
     # decorator to raise error when calling dataframe.to_sql -> raise exception
     @patch("pandas.core.frame.DataFrame.to_sql", side_effect=Exception)
@@ -202,7 +208,9 @@ class TestRdsIngestor:
         # mock sql engine connect method
         with patch("sqlalchemy.engine.base.Engine.connect") as mock_sql:
             # call ingest_samples method
-            assert rds_ingestor.ingest_samples().startswith("ingest_samples method NOT successfully called: raised error --->")
+            assert rds_ingestor.ingest_samples().startswith(
+                "ingest_samples method NOT successfully called: raised error --->"
+            )
 
     # mock callable for dataframe.to_sql
     def mock_pd_to_sql(*args, **kwargs):

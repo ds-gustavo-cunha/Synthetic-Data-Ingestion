@@ -74,7 +74,9 @@ class TestDynamodbIngestor:
         dynamodb_ingestor = DynamodbIngestor("mocking")
 
         # call _create_client method
-        assert dynamodb_ingestor._create_client().startswith("_create_client method NOT successful: raised error ---> ")
+        assert dynamodb_ingestor._create_client().startswith(
+            "_create_client method NOT successful: raised error ---> "
+        )
 
     # mock "with open" clause, "os.listdir"
     # and use "fake_dynamo_table" fixture
@@ -132,7 +134,9 @@ class TestDynamodbIngestor:
         dynamodb_ingestor._table_created_flag = False
 
         # call _create_table method
-        assert dynamodb_ingestor._create_table().startswith("_create_table method NOT successful: raised error ---> ")
+        assert dynamodb_ingestor._create_table().startswith(
+            "_create_table method NOT successful: raised error ---> "
+        )
 
     # mock "with open" clause, "os.listdir"
     # and use "fake_dynamo_table" fixture
@@ -203,7 +207,9 @@ class TestDynamodbIngestor:
             # patch os.listdir method so as to raise error and test _parse_logs exception
             with patch(target="os.listdir", side_effect=Exception):
                 # call _parse_logs method
-                assert dynamodb_ingestor._parse_logs().startswith("parse_logs method NOT successful: raised error ---> ")
+                assert dynamodb_ingestor._parse_logs().startswith(
+                    "parse_logs method NOT successful: raised error ---> "
+                )
 
     # mock "with open" clause, "os.listdir"
     # and use "fake_dynamo_table" fixture
@@ -321,4 +327,6 @@ class TestDynamodbIngestor:
                 target="os.listdir", side_effect=Exception("list.dir exception")
             ):
                 # call _delete_logs method
-                assert dynamodb_ingestor._delete_logs().startswith("_delete_logs method NOT successful: raised error ---> ")
+                assert dynamodb_ingestor._delete_logs().startswith(
+                    "_delete_logs method NOT successful: raised error ---> "
+                )

@@ -146,13 +146,25 @@ class LambdaIngestor:
         # NO error when sending
         else:
 
-            # log an information
-            self.logger.info(
-                f"send_report_to_lambda method successfully called: {r.json()}"
-            )
+            # check status code
+            if r.status_code == 200:
 
-            # response from lambda api
-            return r.json()
+                # log an information
+                self.logger.info(
+                    f"send_report_to_lambda method successfully called: {r.json()}"
+                )
+
+                # response from lambda api
+                return r.json()
+
+            # status code not 200
+            else:
+
+                # log an information
+                self.logger.critical(f"send_report_to_lambda method called: {r.json()}")
+
+                # response from lambda api
+                return r.json()
 
     def _jsonify_report(self) -> None:
         """Get the raw report and convert it to a json"""

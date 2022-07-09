@@ -48,7 +48,6 @@ class DynamodbIngestor:
             f"DynamodbIngestor object successfully instanciated: logs_folder = {logs_folder}"
         )
 
-
     def send_logs(self) -> str:
         """Send logs (in batch) to AWS DynamoDB"""
 
@@ -108,7 +107,6 @@ class DynamodbIngestor:
 
             # message to user
             return "Nothing was done once log were already sent"
-
 
     def _create_client(self) -> None:
         """Create a client to connect with AWS DynamoDB"""
@@ -280,7 +278,6 @@ class DynamodbIngestor:
             self.logger.info(f"parse_logs method successfully called")
 
             return "parse_logs method successfully called"
-
 
     def _delete_logs(self) -> str:
         """Given the logs_folder param, parse all files inside this folder
