@@ -95,7 +95,12 @@ class TestLambdaIngestor:
 
             def json(self):
                 # return r atribute
-                return self.r
+                return "Okay"
+
+            @property
+            def status_code(self):
+                # return status_code attribute
+                return 200
 
         # set a monkey patch so that when requests.post is called
         monkeypatch.setattr("requests.post", Monkey)

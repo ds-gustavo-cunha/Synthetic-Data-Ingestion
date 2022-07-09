@@ -161,13 +161,10 @@ class LambdaIngestor:
             else:
 
                 # log an information
-                self.logger.critical(
-                    f"send_report_to_lambda method called: {r.json()}"
-                )
+                self.logger.critical(f"send_report_to_lambda method called: {r.json()}")
 
                 # response from lambda api
                 return r.json()
-
 
     def _jsonify_report(self) -> None:
         """Get the raw report and convert it to a json"""

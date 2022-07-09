@@ -130,8 +130,9 @@ class RdsIngestor:
                 f"ingest_samples method NOT successfully called: raised error ---> {e}"
             )
 
-            return f"ingest_samples method NOT successfully called: raised error ---> {e}"
-
+            return (
+                f"ingest_samples method NOT successfully called: raised error ---> {e}"
+            )
 
         # input validated
         else:
@@ -197,4 +198,3 @@ class RdsIngestor:
 
         # log an information
         self.logger.info(f"_create_ingestion_schema method successfully called")
-
