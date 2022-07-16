@@ -29,11 +29,12 @@ class NpEncoder(json.JSONEncoder):
 
 
 class LambdaIngestor:
-    def __init__(self, synth_customer_object: SynthCustomers) -> None:
+    def __init__(self, synth_customer_object: SynthCustomers, log_folder: str = None) -> None:
         """Save the synth_customer_object input in the LambdaIngestor object
 
         Args
-            synth_customer_object: a synthetic_data_ingestion.sample_creator.SynthCustomers object"""
+            synth_customer_object: a synthetic_data_ingestion.sample_creator.SynthCustomers object
+            log_folder: a string with the path to store logs"""
 
         # instanciate logger
         self.logger = logging.getLogger("lambda_ingestion.py")
@@ -41,9 +42,14 @@ class LambdaIngestor:
         # define log date in utc
         logging.Formatter.converter = time.gmtime
 
+        # check if user input a folder to store logs
+        if log_folder is None:
+            # set a default folder
+            log_folder = "../logs"
+
         # define logging configuration
         logging.basicConfig(
-            filename=f"../logs/data_ingestion-{datetime.utcnow().date()}.log",
+            filename=f"{log_folder}/data_ingestion-{datetime.utcnow().date()}.log",
             level=logging.INFO,
             format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
             datefmt="%Y:%m:%d %H:%M:%S",
