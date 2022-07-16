@@ -41,7 +41,6 @@ log_folder = os.path.join(root_path, "logs")
 ############## LIBRARIES ##############
 
 from datetime import datetime
-from datetime import timedelta
 from airflow.models import DAG
 from airflow.decorators import task
 from airflow.operators.python import PythonOperator, PythonVirtualenvOperator
@@ -105,7 +104,7 @@ with DAG(
     description="Ingest synthetic data on AWS architecture",
     start_date=datetime(2022, 6, 30),
     end_date=None,
-    schedule_interval=timedelta(minutes=5),
+    schedule_interval="@weekly",
     catchup=False,  # don't wait schedule_interval after start date
 ) as dag:
 
@@ -113,7 +112,7 @@ with DAG(
     for group in ["CONTROL", "TREATMENT"]:
         # instanciate SynthCustomers object
         synth_customers = SynthCustomers(
-            num_samples=5, group=group, log_folder=log_folder
+            num_samples=5000, group=group, log_folder=log_folder
         )
         # generate synthetic samples
         synth_customers.generate_samples()
