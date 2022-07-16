@@ -2,7 +2,7 @@ install_requirements:
 	@pip install -r requirements.txt
 
 black:
-	black lambda_api/*.py tests/*.py synthetic_data_ingestion/*.py scripts/
+	black airflow/*.py lambda_api/*.py tests/*.py synthetic_data_ingestion/*.py scripts/
 
 run_api:
 	uvicorn api.api:app --reload

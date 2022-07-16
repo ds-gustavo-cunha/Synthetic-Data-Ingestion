@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 
 
 class DynamodbIngestor:
-    def __init__(self, logs_folder: str) -> None:
+    def __init__(self, logs_folder: str = None) -> None:
         """Instanciate class with folder whose
         logs need to be sent to Dynamo DB
 
@@ -23,9 +23,14 @@ class DynamodbIngestor:
         # define log date in utc
         logging.Formatter.converter = time.gmtime
 
+        # check if user input a folder to store logs
+        if logs_folder is None:
+            # set a default folder
+            logs_folder = "../logs"
+
         # define logging configuration
         logging.basicConfig(
-            filename=f"../logs/data_ingestion-{datetime.utcnow().date()}.log",
+            filename=f"{logs_folder}/data_ingestion-{datetime.utcnow().date()}.log",
             level=logging.INFO,
             format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
             datefmt="%Y:%m:%d %H:%M:%S",

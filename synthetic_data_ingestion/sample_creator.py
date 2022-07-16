@@ -76,12 +76,13 @@ class SynthGenBase:
 class SynthCustomers(SynthGenBase):
     """Class to generate synthetic customer behavior given user inputs"""
 
-    def __init__(self, num_samples: int, group: str):
+    def __init__(self, num_samples: int, group: str, log_folder: str = None):
         """Object constructor
 
         Args
             num_samples: an integer with the number of synthetic customers to generates
-            group: a string ("CONTROL" or "TREATMENT") to indicate AB-testing group"""
+            group: a string ("CONTROL" or "TREATMENT") to indicate AB-testing group
+            log_folder: a string with the path to store logs"""
 
         # inherit from father class
         super().__init__()
@@ -92,9 +93,14 @@ class SynthCustomers(SynthGenBase):
         # define log date in utc
         logging.Formatter.converter = time.gmtime
 
+        # check if user input a folder to store logs
+        if log_folder is None:
+            # set a default folder
+            log_folder = "../logs"
+
         # define logging configuration
         logging.basicConfig(
-            filename=f"../logs/data_ingestion-{datetime.utcnow().date()}.log",
+            filename=f"{log_folder}/data_ingestion-{datetime.utcnow().date()}.log",
             level=logging.INFO,
             format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
             datefmt="%Y:%m:%d %H:%M:%S",
