@@ -84,7 +84,6 @@ class SynthCustomers(SynthGenBase):
             group: a string ("CONTROL" or "TREATMENT") to indicate AB-testing group
             log_folder: a string with the path to store logs"""
 
-
         # inherit from father class
         super().__init__()
 

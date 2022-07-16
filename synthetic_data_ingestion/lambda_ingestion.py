@@ -29,7 +29,9 @@ class NpEncoder(json.JSONEncoder):
 
 
 class LambdaIngestor:
-    def __init__(self, synth_customer_object: SynthCustomers, log_folder: str = None) -> None:
+    def __init__(
+        self, synth_customer_object: SynthCustomers, log_folder: str = None
+    ) -> None:
         """Save the synth_customer_object input in the LambdaIngestor object
 
         Args
