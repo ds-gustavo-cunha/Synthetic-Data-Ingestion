@@ -26,17 +26,17 @@ As the output, we would have the data regarding the customer behaviour and its s
 
 ## **Folder structure**
 
-- **.github**: code for GitHub actions integration (CI)
-- **airflow**: code used to deploy the Airflow scheduler on AWS EC2
-- **img**: project images
-- **lambda_api**: code used to create a FastAPI on AWS Lambda
-- **scripts**: scripts created for the project (none so far)
-- **synthetic_data_ingestion**: local package with all the scripts that generate the synthetic data and ingest it on their respective AWS service
-- **test**: code that tests the data ingestion through the local package.
-- **Makefile**: directives to the make automation tool.
-- **README.md**: project overview 
-- **requirements.txt**: required dependencies for the project.
-- **setup.py**: the code to set up the local package.
+- *.github*: code for GitHub actions integration (CI)
+- *airflow*: code used to deploy the Airflow scheduler on AWS EC2
+- *img*: project images
+- *lambda_api*: code used to create a FastAPI on AWS Lambda
+- *scripts*: scripts created for the project (none so far)
+- *synthetic_data_ingestion*: local package with all the scripts that generate the synthetic data and ingest it on their respective AWS service
+- *test*: code that tests the data ingestion through the local package.
+- *Makefile*: directives to the make automation tool.
+- *README.md*: project overview 
+- *requirements.txt*: required dependencies for the project.
+- *setup.py*: the code to set up the local package.
 
 
 # **RESULTS**
@@ -47,34 +47,34 @@ The following image represents the original concept of this project:
 
 Except for minor details, the first project iteration is over. In other words:
 
-- Airflow in AWS EC2 is working;
+- **Airflow in AWS EC2 is working**;
 
-- Postgress database in AWS RDS is working;
+- **Postgress database in AWS RDS is working**;
 
-- FastAPI in AWS Lambda is working;
+- **FastAPI in AWS Lambda is working**;
 
-- AWS DynamoDB is working;
+- **AWS DynamoDB is working**;
 
-- Data Lake Bronze in AWS S3 is working;
+- **Data Lake Bronze in AWS S3 is working**;
 
-All of these previous tools are working smoothly in the AWS cloud. 
+*All of these previous tools are working smoothly in the AWS cloud.*
 
-Besides, 97% of the python code used for this project passes the CI tests. 
+Besides, **97% of the python code used for this project passes the CI tests**. 
 
 
 # **CONCLUSIONS**
 
 Even if you are a data scientist, understanding the fundamentals of data engineering:
 
-- makes it possible for your projects to deliver more valuable and robust solutions;
+- *makes it possible for your projects to deliver more valuable and robust solutions;*
 
-- makes you a more independent data scientist (you can build your solutions if you don't have the support of data engineers);
+- *makes you a more independent data scientist (you can build your solutions if you don't have the support of data engineers);*
 
-- makes you understand the workflow before the data is available to you;
+- *makes you understand the workflow before the data is available to you;*
 
-- makes it possible for you to contribute with better solutions for the data engineering team;
+- *makes it possible for you to contribute with better solutions for the data engineering team;*
 
-- forces you to adopt coding best practices.
+- *forces you to adopt coding best practices.*
 
 # **LESSONS LEARNED**
 
